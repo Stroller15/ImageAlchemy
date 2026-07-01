@@ -1,16 +1,14 @@
 import Link from "next/link";
-import {
-  Sparkles,
-  ImageIcon,
-  Eraser,
-  Wand2,
-  Palette,
-  ArrowRight,
-  Trash2,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { plans } from "@/constants";
 
+import Hero from "@/components/marketing/Hero";
+import HowItWorks from "@/components/marketing/HowItWorks";
+import FeaturesBento from "@/components/marketing/FeaturesBento";
+import DemoShowcase from "@/components/marketing/DemoShowcase";
+import StatsStrip from "@/components/marketing/StatsStrip";
 
 export default function LandingPage() {
   return (
@@ -25,7 +23,13 @@ export default function LandingPage() {
       <header className="relative z-10 border-b border-white/10">
         <div className="container px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 justify-center">
-            <Image width={60} height={60} src="/assets/logo.png" alt="Logo" className="h-6 w-6 text-orange-500" />
+            <Image
+              width={60}
+              height={60}
+              src="/assets/logo.png"
+              alt="Logo"
+              className="h-6 w-6 text-orange-500"
+            />
             <span className="font-bold text-xl">ImageAlchemy</span>
           </div>
           <Button className="bg-orange-500 hover:bg-orange-600" asChild>
@@ -34,57 +38,46 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative z-10 flex-1 py-20 lg:py-32">
-        <div className="container px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-500/10 border border-orange-500/20 mb-8">
-              <Sparkles className="h-4 w-4 text-orange-500" />
-              <span className="text-sm text-orange-500">
-                AI-Powered Image Editing
-              </span>
-            </div>
-            <h1 className="text-5xl lg:text-7xl font-bold tracking-tight bg-gradient-to-br from-white to-orange-500/50 bg-clip-text text-transparent mb-8">
-              Transform Imagination into Reality
-            </h1>
-            <p className="text-xl text-gray-400 mb-12">
-              Experience the future of image editing with our AI-powered tools.
-              Restore, generate, remove, recolor, and more with just a few
-              clicks.
-            </p>
-            <Button
-              size="lg"
-              className="bg-orange-500 hover:bg-orange-600 text-lg px-8"
-              asChild
-            >
-              <Link href="/home">
-                Start Creating
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <Hero />
+      <HowItWorks />
+      <FeaturesBento />
+      <DemoShowcase />
+      <StatsStrip />
 
-      {/* Features Section */}
+      {/* Pricing Teaser */}
       <section className="relative z-10 py-20 lg:py-32 border-t border-white/10">
         <div className="container px-4">
           <h2 className="text-3xl lg:text-5xl font-bold mb-12 text-center">
-            Powerful AI Features
+            Simple, Credit-Based Pricing
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {plans.map((plan) => (
               <div
-                key={index}
-                className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 hover:border-orange-500/50 transition-colors"
+                key={plan._id}
+                className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 text-center"
               >
-                <div className="p-3 bg-orange-500/10 rounded-xl w-fit mb-6">
-                  {feature.icon}
-                </div>
-                <h3 className="font-semibold text-xl mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <h3 className="font-semibold text-xl mb-2">{plan.name}</h3>
+                <p className="text-4xl font-bold mb-1">
+                  ${plan.price}
+                  {plan.price > 0 && (
+                    <span className="text-base text-gray-400 font-normal">
+                      {" "}
+                      one-time
+                    </span>
+                  )}
+                </p>
+                <p className="text-gray-400">{plan.credits} credits</p>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              href="/credits"
+              className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-400 transition-colors"
+            >
+              View full plans
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -102,8 +95,7 @@ export default function LandingPage() {
                   Start Creating Today
                 </h2>
                 <p className="text-gray-400 text-lg max-w-xl">
-                  Join thousands of creators who are transforming their images
-                  with AI
+                  Start editing smarter &mdash; no credit card required.
                 </p>
               </div>
               <Button
@@ -117,37 +109,34 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-white/10 py-10">
+        <div className="container px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <Image
+              width={24}
+              height={24}
+              src="/assets/logo.png"
+              alt="Logo"
+              className="h-5 w-5"
+            />
+            <span className="font-semibold">ImageAlchemy</span>
+          </div>
+          <p className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} ImageAlchemy. All rights
+            reserved.
+          </p>
+          <a
+            href="https://github.com/Stroller15/ImageAlchemy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-gray-400 hover:text-orange-500 transition-colors"
+          >
+            GitHub
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
-
-const features = [
-  {
-    icon: <ImageIcon className="h-6 w-6 text-orange-500" />,
-    title: "Image Restore",
-    description:
-      "Breathe new life into old or damaged photos with our AI restoration technology",
-  },
-  {
-    icon: <Wand2 className="h-6 w-6 text-orange-500" />,
-    title: "Generative Fill",
-    description:
-      "Expand your images or fill in missing areas with AI-generated content",
-  },
-  {
-    icon: <Eraser className="h-6 w-6 text-orange-500" />,
-    title: "Object Remove",
-    description:
-      "Seamlessly remove unwanted objects while preserving image quality",
-  },
-  {
-    icon: <Palette className="h-6 w-6 text-orange-500" />,
-    title: "Object Recolor",
-    description: "Change colors of specific objects with precision and ease",
-  },
-  {
-    icon: <Trash2 className="h-6 w-6 text-orange-500" />,
-    title: "Background Remove",
-    description: "Easily remove and replace backgrounds from your images",
-  },
-];
